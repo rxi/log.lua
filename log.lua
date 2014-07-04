@@ -28,10 +28,10 @@ for i, v in ipairs(modes) do
   levels[v.name] = i
 end
 
-local round
-round = function(x, increment)
-  if increment then return round(x / increment) * increment end
-  return x > 0 and math.floor(x + .5) or math.ceil(x - .5)
+local round = function(x, increment)
+  increment = increment or 1
+  x = x / increment
+  return (x > 0 and math.floor(x + .5) or math.ceil(x - .5)) * increment
 end
 
 local _tostring = tostring
