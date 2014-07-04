@@ -19,8 +19,8 @@ local modes = {
   { name = "debug", color = "\27[36m", },
   { name = "info",  color = "\27[32m", },
   { name = "warn",  color = "\27[33m", },
-  { name = "error", color = "\27[31m",  fn = function(m) error(m, 3) end  },
-  { name = "fatal", color = "\27[35m",  fn = function(m) os.exit(1) end   },
+  { name = "error", color = "\27[31m", },
+  { name = "fatal", color = "\27[35m", },
 }
 
 local levels = {}
@@ -79,9 +79,7 @@ for i, x in ipairs(modes) do
       fp:write(str)
       fp:close()
     end
-    
-    -- Run log mode's additional code
-    if x.fn then x.fn(msg) end
+
   end
 end
 

@@ -23,9 +23,6 @@ if one is set -- the log file.
 | **log.debug(...)**  | **log.warn(...)**   | **log.fatal(...)**  |
 |                     |                     |                     |
 
-`log.error()` raises an error via the inbuilt lua function `error()`.
-`log.fatal()` immediately exits the program with an error code.
-
 
 ### Additional options
 log.lua provides variables for setting additional options:
