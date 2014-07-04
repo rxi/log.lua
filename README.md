@@ -1,7 +1,7 @@
 # log.lua
 A tiny logging module for Lua. 
 
-![screenshot from 2014-07-03 21 05 38](https://cloud.githubusercontent.com/assets/3920290/3475193/8df9cc44-02ed-11e4-811e-68f5340a735d.png)
+![screenshot from 2014-07-04 19 55 55](https://cloud.githubusercontent.com/assets/3920290/3484524/2ea2a9c6-03ad-11e4-9ed5-a9744c6fd75d.png)
 
 
 ## Installation
