@@ -24,9 +24,9 @@ if one is set -- the log file:
 * **log.error(...)**
 * **log.fatal(...)**
 
-It also provides a `log.check()`.  The function accepts the same
-arguments as Lua's standard `assert()`, along with an optional third
-argument naming the level at which to log the assertion.  For example:
+It also provides a `log.check()`.  The function accepts the same arguments as
+Lua's standard `assert()`, along with an optional third argument naming the
+level at which to log the assertion.  For example:
 
 ```lua
 log.check(x == y, "X and Y are not equal.", "debug")
@@ -40,13 +40,13 @@ if not x == y then
 end
 ```
 
-If the third argument is nil then the function uses the value of
-`warn`.  Like the standard `assert()` function, the `log.check()`
-function will return the value of its first argument.
+If the third argument is nil then the function uses the value of `warn`.  Like
+the standard `assert()` function, the `log.check()` function will return the
+value of its first argument.
 
-Similar the `assert()`, the second parameter is also optional, in
-which case `log.check()` will default to the message `check failed`,
-e.g. these examples are equivalent:
+Similar the `assert()`, the second parameter is also optional, in which case
+`log.check()` will default to the message `check failed`, e.g. these examples
+are equivalent:
 
 ```lua
 log.check(x == y)
