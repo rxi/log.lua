@@ -50,7 +50,7 @@ e.g. these examples are equivalent:
 ```lua
 log.check(x == y)
 
-log.check(x == y, "check failed", "warn)
+log.check(x == y, "check failed", "warn")
 ```
 
 
