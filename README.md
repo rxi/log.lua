@@ -15,13 +15,14 @@ log = require "log"
 ## Usage
 log.lua provides 6 functions, each function takes all its arguments,
 concatenates them into a string then outputs the string to the console and --
-if one is set -- the log file.
+if one is set -- the log file:
 
-|                     |                     |                     |
-|---------------------|---------------------|---------------------|
-| **log.trace(...)**  | **log.info(...)**   | **log.error(...)**  |
-| **log.debug(...)**  | **log.warn(...)**   | **log.fatal(...)**  |
-|                     |                     |                     |
+* **log.trace(...)**
+* **log.debug(...)**
+* **log.info(...)**
+* **log.warn(...)**
+* **log.error(...)**
+* **log.fatal(...)**
 
 It also provides a `log.check()`.  The function accepts the same
 arguments as Lua's standard `assert()`, along with an optional third
