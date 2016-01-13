@@ -56,15 +56,15 @@ end
 
 
 local create_output = function (level, filename, fileline, ...)
-  local levelname = level:upper()
-  local lineinfo = filename .. ":" .. fileline
-  local msg = tostring(...)
-  local color = modes[levels[level]]["color"]
-
   -- Return early if we're below the log level
   if levels[level] < levels[log.level] then
     return
   end
+  
+  local levelname = level:upper()
+  local lineinfo = filename .. ":" .. fileline
+  local msg = tostring(...)
+  local color = modes[levels[level]]["color"]
 
   -- Output to console
   print(string.format("%s[%-6s%s]%s %s: %s",
