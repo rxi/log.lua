@@ -55,7 +55,7 @@ end
 for i, x in ipairs(modes) do
   local nameupper = x.name:upper()
   log[x.name] = function(...)
-    
+
     -- Return early if we're below the log level
     if i < levels[log.level] then
       return
@@ -73,6 +73,16 @@ for i, x in ipairs(modes) do
                         log.usecolor and "\27[0m" or "",
                         lineinfo,
                         msg))
+
+    -- when the outfile is a relative directory
+    if log.outfile then
+      local fp = io.open(log.outfile, "r")
+      if fp==nil then
+        dir=string.gsub(log.outfile, "/%w+.log", "")
+        os.execute("mkdir -p "..dir)
+        os.execute("touch "..log.outfile)
+      end
+    end
 
     -- Output to log file
     if log.outfile then
