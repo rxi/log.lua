@@ -52,13 +52,13 @@ The level of each log mode, starting with the lowest log level is as follows:
 #### log.printpattern
 #### log.filepattern
 Formatting pattern for console output and file output. Following tags are replaced with the corresponding values:
-  * %p - log message level (__p__riority - INFO, WARN, etc)
-  * %d - __d__ate formatted using log.datepattern format
-  * %O - start of c__O__lored output
-  * %o - end of c__o__lored output
-  * %F - __F__ilename
-  * %L - __L__ine number
-  * %m - log __m__essage
+  * %p - log message level (**p**riority - INFO, WARN, etc)
+  * %d - **d**ate formatted using log.datepattern format
+  * %O - start of c**O**lored output
+  * %o - end of c**o**lored output
+  * %F - **F**ilename
+  * %L - **L**ine number
+  * %m - log **m**essage
   * %% - '%' character
 
 Newline is automatically added to the end of printpattern but not to the filepattern.
@@ -69,7 +69,7 @@ log.printpattern = "%O[%p %d]%o %F:%L: %m"
 log.filepattern = "[%p %d] %F:%L: %m\n"
 ```
 #### log.datepattern
-Date formatting pattern. See `os.date()` lua function documentation. Default: %H:%M:%S
+Date formatting pattern. See `os.date()` lua function documentation. Default: `%H:%M:%S`
 
 ## License
 This library is free software; you can redistribute it and/or modify it under
