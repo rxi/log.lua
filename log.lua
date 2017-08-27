@@ -1,17 +1,20 @@
 --
 -- log.lua
 --
--- Copyright (c) 2016 rxi
+-- Copyright (c) 2016, 2017 rxi, premek.v
 --
 -- This library is free software; you can redistribute it and/or modify it
 -- under the terms of the MIT license. See LICENSE for details.
 --
 
-local log = { _version = "0.1.0" }
+local log = { _version = "0.2.0" }
 
 log.usecolor = true
 log.outfile = nil
 log.level = "trace"
+log.printpattern = "%O[%p %d]%o %F:%L: %m"
+log.filepattern = "[%p %d] %F:%L: %m\n"
+log.datepattern = "%H:%M:%S"
 
 
 local modes = {
@@ -36,6 +39,9 @@ local round = function(x, increment)
   return (x > 0 and math.floor(x + .5) or math.ceil(x - .5)) * increment
 end
 
+function interp(s, tab)
+  return (s:gsub('(%%.)', function(w) return tab[w:sub(2, -1)] or w end))
+end
 
 local _tostring = tostring
 
@@ -53,7 +59,7 @@ end
 
 
 for i, x in ipairs(modes) do
-  local nameupper = x.name:upper()
+  local nameupper = string.format('%-5s', x.name:upper())
   log[x.name] = function(...)
     
     -- Return early if we're below the log level
@@ -63,28 +69,29 @@ for i, x in ipairs(modes) do
 
     local msg = tostring(...)
     local info = debug.getinfo(2, "Sl")
-    local lineinfo = info.short_src .. ":" .. info.currentline
+
+    local values = {
+      p = nameupper,
+      d = os.date(log.datepattern),
+      O = log.usecolor and x.color or "",
+      o = log.usecolor and "\27[0m" or "",
+      F = info.short_src,
+      L = info.currentline,
+      m = msg,
+      ['%'] = '%'
+    }
 
     -- Output to console
-    print(string.format("%s[%-6s%s]%s %s: %s",
-                        log.usecolor and x.color or "",
-                        nameupper,
-                        os.date("%H:%M:%S"),
-                        log.usecolor and "\27[0m" or "",
-                        lineinfo,
-                        msg))
+    print(interp(log.printpattern, values))
 
     -- Output to log file
     if log.outfile then
       local fp = io.open(log.outfile, "a")
-      local str = string.format("[%-6s%s] %s: %s\n",
-                                nameupper, os.date(), lineinfo, msg)
-      fp:write(str)
+      fp:write(interp(log.filepattern, values))
       fp:close()
     end
 
   end
 end
-
 
 return log
