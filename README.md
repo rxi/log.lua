@@ -7,9 +7,11 @@ it:
 
 	* Download and Install this vim [script](https://www.vim.org/scripts/script.php?script_id=302)
 	* Add this line into your `.vimrc` 
+
 		```
 			autocmd BufNewFile,BufRead *.log :AnsiEsc
 		```
+
 ## SETUP
 Here's a simple setup
 	```
