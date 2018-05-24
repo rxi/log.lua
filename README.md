@@ -1,26 +1,24 @@
 # log.lua
 A tiny logging module for Lua. WITH ADDED SUPPORT FOR LOVE AND VIM USERS!
 
-## WHAT ARE IN THIS FORK?
-If you're a vim user, the colored output the `log` library provides wont work. So here's how to fix
-it:
+## SETUP
+
+Here's a simple setup
 
 	* Download and Install this vim [script](https://www.vim.org/scripts/script.php?script_id=302)
-	* Add this line into your `.vimrc` 
+	* Add this line into your **.vimrc**
 
-		```
+		```lua
 			autocmd BufNewFile,BufRead *.log :AnsiEsc
 		```
 
-## SETUP
-Here's a simple setup
-	```
+	```lua
 		local Log = require("path-to-log.lua")
 			Log.usecolor = false
 			Log.outfile = "log.log" -- the filename to save in the love appdata
 			Log.lovesave = true
 	```
-When you open the `log.log` file in your love appdata directory, that should be colorized :)
+When you open the **log.log** file in your love appdata directory, that should be colorized :)
 
 ## Installation
 The [log.lua](log.lua?raw=1) file should be dropped into an existing project
