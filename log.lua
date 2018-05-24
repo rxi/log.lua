@@ -11,6 +11,8 @@ local log = { _version = "0.1.0" }
 
 log.usecolor = true
 log.outfile = nil
+log.lovesave = false
+log.useoutcolor = true
 log.level = "trace"
 
 
@@ -75,7 +77,7 @@ for i, x in ipairs(modes) do
                         msg))
 
     -- Output to log file
-    if log.outfile then
+    if log.outfile and not log.lovesave then
       local fp = io.open(log.outfile, "a")
       local str = string.format("[%-6s%s] %s: %s\n",
                                 nameupper, os.date(), lineinfo, msg)
@@ -83,6 +85,16 @@ for i, x in ipairs(modes) do
       fp:close()
     end
 
+    if log.outfile and log.lovesave then
+      local str = string.format("%s[%-6s%s] %s: %s\n", 
+      	log.useoutcolor and x.color or "", nameupper, os.date(), lineinfo, msg)
+      if not love.filesystem.getInfo(log.outfile) then
+    		love.filesystem.newFile(log.outfile)
+    		love.filesystem.write(log.outfile, str)
+      else
+      	love.filesystem.append(log.outfile, str)
+      end
+    end
   end
 end
 
