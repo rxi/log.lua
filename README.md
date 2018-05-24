@@ -5,19 +5,19 @@ A tiny logging module for Lua. WITH ADDED SUPPORT FOR LOVE AND VIM USERS!
 
 Here's a simple setup
 
-	* Download and Install this vim [script](https://www.vim.org/scripts/script.php?script_id=302)
-	* Add this line into your **.vimrc**
+* Download and Install this vim [script](https://www.vim.org/scripts/script.php?script_id=302)
+* Add this line into your **.vimrc**
 
-		```lua
-			autocmd BufNewFile,BufRead *.log :AnsiEsc
-		```
+```lua
+autocmd BufNewFile,BufRead *.log :AnsiEsc
+```
 
-	```lua
-		local Log = require("path-to-log.lua")
-			Log.usecolor = false
-			Log.outfile = "log.log" -- the filename to save in the love appdata
-			Log.lovesave = true
-	```
+```lua
+local Log = require("path-to-log.lua")
+Log.usecolor = false
+Log.outfile = "log.log" -- the filename to save in the love appdata
+Log.lovesave = true
+```
 When you open the **log.log** file in your love appdata directory, that should be colorized :)
 
 ## Installation
