@@ -51,7 +51,7 @@ local tostring = function(...)
         if type(x) == "number" then
             x = round(x, .01)
         end
-        t[#t + 1] = _tostring(x)
+        table.insert(t, _tostring(x))
     end
     return table.concat(t, " ")
 end
