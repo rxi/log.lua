@@ -14,7 +14,6 @@ log.outfile = nil
 log.level = "trace"
 log.format = "txt"
 
-
 local modes = {
   { name = "trace", color = "\27[34m", },
   { name = "debug", color = "\27[36m", },
@@ -69,7 +68,7 @@ for i, x in ipairs(modes) do
     -- Output to console
     if log.format == "json" then
       output = string.format(
-        "{\"message\": \"%s\", \"levelname\": \"%s\", \"pathname\": \"%s\", \"lineno\": \"%s\", \"asctime\": \"%s\", \"created\": %s}",
+        "{\"message\": \"%s\", \"level\": \"%s\", \"pathname\": \"%s\", \"lineno\": \"%s\", \"asctime\": \"%s\", \"created\": %s}",
         msg,
         nameupper,
         info.short_src,
