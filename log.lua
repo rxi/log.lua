@@ -67,16 +67,16 @@ for i, x in ipairs(modes) do
     local lineinfo = info.short_src .. ":" .. info.currentline
 
     -- Output to console
-    local output = ""
     if log.format == "json" then
       output = string.format(
-        "{\"message\": \"%s\", \"levelname\": \"%s\", \"asctime\": \"%s\", \"created\": %s}",
+        "{\"message\": \"%s\", \"levelname\": \"%s\", \"pathname\": \"%s\", \"lineno\": \"%s\", \"asctime\": \"%s\", \"created\": %s}",
         msg,
         nameupper,
+        info.short_src,
+        info.currentline,
         os.date("!%Y-%m-%d %H:%M:%S"),
         os.time()
       )
-
     else
       output = string.format("%s[%-6s%s]%s %s: %s",
         log.usecolor and x.color or "",
@@ -92,7 +92,6 @@ for i, x in ipairs(modes) do
     -- Output to log file
     if log.outfile then
       local fp = io.open(log.outfile, "a")
-      local out_str = ""
       if log.format == "json" then
         out_str = output.."\n"
       else
