@@ -12,6 +12,7 @@ local log = { _version = "0.1.0" }
 log.usecolor = true
 log.outfile = nil
 log.level = "trace"
+log.format = "txt"
 
 
 local modes = {
@@ -66,20 +67,40 @@ for i, x in ipairs(modes) do
     local lineinfo = info.short_src .. ":" .. info.currentline
 
     -- Output to console
-    print(string.format("%s[%-6s%s]%s %s: %s",
-                        log.usecolor and x.color or "",
-                        nameupper,
-                        os.date("%H:%M:%S"),
-                        log.usecolor and "\27[0m" or "",
-                        lineinfo,
-                        msg))
+    local output = ""
+    if log.format == "json" then
+      output = string.format(
+        "{\"message\": \"%s\", \"levelname\": \"%s\", \"asctime\": \"%s\", \"created\": %s}",
+        msg,
+        nameupper,
+        os.date("!%Y-%m-%d %H:%M:%S"),
+        os.time()
+      )
+
+    else
+      output = string.format("%s[%-6s%s]%s %s: %s",
+        log.usecolor and x.color or "",
+        nameupper,
+        os.date("%H:%M:%S"),
+        log.usecolor and "\27[0m" or "",
+        lineinfo,
+        msg)
+    end
+
+    print(output)
 
     -- Output to log file
     if log.outfile then
       local fp = io.open(log.outfile, "a")
-      local str = string.format("[%-6s%s] %s: %s\n",
+      local out_str = ""
+      if log.format == "json" then
+        out_str = output.."\n"
+      else
+        out_str = string.format("[%-6s%s] %s: %s\n",
                                 nameupper, os.date(), lineinfo, msg)
-      fp:write(str)
+      end
+
+      fp:write(out_str)
       fp:close()
     end
 
