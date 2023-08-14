@@ -13,6 +13,7 @@ log.usecolor = true
 log.outfile = nil
 log.level = "trace"
 log.entries = {}
+log.debugthread = 2
 
 local os, debug, math, table, string, lfs = os, debug, math, table, string, love and love.filesystem
 local ipairs, select, type, print, fileopen = ipairs, select, type, print, lfs and lfs.newFile or io.open
@@ -66,7 +67,7 @@ for i, x in ipairs(modes) do
     end
 
     local msg = tostring(...)
-    local info = debug.getinfo(2, "Sl")
+    local info = debug.getinfo(log.debugthread, "Sl")
     local lineinfo = info.short_src .. ":" .. info.currentline
 
     -- Output to console
