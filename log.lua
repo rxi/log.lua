@@ -78,12 +78,15 @@ for i, x in ipairs(modes) do
                         lineinfo,
                         msg))
 
+    local str = string.format("[%-6s%s] %s: %s\n",
+                              nameupper, os.date(), lineinfo, msg)
+
     -- Store to log table
     if log.outfile then
-      local str = string.format("[%-6s%s] %s: %s\n",
-                                nameupper, os.date(), lineinfo, msg)
       table.insert(log.entries, str)
     end
+
+    return str
   end
 end
 
@@ -95,8 +98,8 @@ log.flush = function(outfile)
     local fp = fileopen(o, 'a')
 
     for i = 1, #e do
-      local str = table.remove(e, i)
-      fp:write(str)
+      fp:write(e[i])
+      e[i] = nil
     end
 
     fp:close()
