@@ -12,7 +12,10 @@ local log = { _version = "0.1.0" }
 log.usecolor = true
 log.outfile = nil
 log.level = "trace"
+log.entries = {}
 
+local os, debug, math, table, string, lfs = os, debug, math, table, string, love and love.filesystem
+local ipairs, select, type, print, fileopen = ipairs, select, type, print, lfs and lfs.newFile or io.open
 
 local modes = {
   { name = "trace", color = "\27[34m", },
@@ -53,9 +56,10 @@ end
 
 
 for i, x in ipairs(modes) do
+  ---@cast x { name: string|function, color: string }
   local nameupper = x.name:upper()
   log[x.name] = function(...)
-    
+
     -- Return early if we're below the log level
     if i < levels[log.level] then
       return
@@ -74,15 +78,28 @@ for i, x in ipairs(modes) do
                         lineinfo,
                         msg))
 
-    -- Output to log file
+    -- Store to log table
     if log.outfile then
-      local fp = io.open(log.outfile, "a")
       local str = string.format("[%-6s%s] %s: %s\n",
                                 nameupper, os.date(), lineinfo, msg)
+      table.insert(log.entries, str)
+    end
+  end
+end
+
+log.flush = function(outfile)
+  local e, o = log.entries, outfile or log.outfile
+
+  -- Output to log file
+  if o then
+    local fp = fileopen(o, 'a')
+
+    for i = 1, #e do
+      local str = table.remove(e, i)
       fp:write(str)
-      fp:close()
     end
 
+    fp:close()
   end
 end
 
