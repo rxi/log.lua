@@ -83,27 +83,30 @@ for i, x in ipairs(modes) do
                               nameupper, os.date(), lineinfo, msg)
 
     -- Store to log table
-    if log.outfile then
-      table.insert(log.entries, str)
-    end
+    table.insert(log.entries, str)
 
-    return str
+    -- Return order: formatted_string, message, level, pathname, lineno, asctime, created_on
+    return str, msg, nameupper, info.short_src, info.currentline, os.date("!%Y-%m-%d %H:%M:%S"), os.time()
   end
 end
 
+
 log.flush = function(outfile)
   local e, o = log.entries, outfile or log.outfile
+  local length, fp = #e, o and fileopen(o, 'a')
 
   -- Output to log file
-  if o then
-    local fp = fileopen(o, 'a')
-
-    for i = 1, #e do
+  if fp then
+    for i = 1, length do
       fp:write(e[i])
       e[i] = nil
     end
 
     fp:close()
+  else
+    for i = 1, length do
+      e[i] = nil
+    end
   end
 end
 
