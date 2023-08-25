@@ -12,7 +12,11 @@ local log = { _version = "0.1.0" }
 log.usecolor = true
 log.outfile = nil
 log.level = "trace"
+log.entries = {}
+log.debuglayer = 2
 
+local os, debug, math, table, string, lfs = os, debug, math, table, string, love and love.filesystem
+local ipairs, select, type, print, fileopen = ipairs, select, type, print, lfs and lfs.newFile or io.open
 
 local modes = {
   { name = "trace", color = "\27[34m", },
@@ -53,16 +57,17 @@ end
 
 
 for i, x in ipairs(modes) do
+  ---@cast x { name: string|function, color: string }
   local nameupper = x.name:upper()
   log[x.name] = function(...)
-    
+
     -- Return early if we're below the log level
     if i < levels[log.level] then
       return
     end
 
     local msg = tostring(...)
-    local info = debug.getinfo(2, "Sl")
+    local info = debug.getinfo(log.debuglayer, "Sl")
     local lineinfo = info.short_src .. ":" .. info.currentline
 
     -- Output to console
@@ -74,15 +79,34 @@ for i, x in ipairs(modes) do
                         lineinfo,
                         msg))
 
-    -- Output to log file
-    if log.outfile then
-      local fp = io.open(log.outfile, "a")
-      local str = string.format("[%-6s%s] %s: %s\n",
-                                nameupper, os.date(), lineinfo, msg)
-      fp:write(str)
-      fp:close()
+    local str = string.format("[%-6s%s] %s: %s\n",
+                              nameupper, os.date(), lineinfo, msg)
+
+    -- Store to log table
+    table.insert(log.entries, str)
+
+    -- Return order: formatted_string, message, level, pathname, lineno, asctime, created_on
+    return str, msg, nameupper, info.short_src, info.currentline, os.date("!%Y-%m-%d %H:%M:%S"), os.time()
+  end
+end
+
+
+log.flush = function(outfile)
+  local e, o = log.entries, outfile or log.outfile
+  local length, fp = #e, o and fileopen(o, 'a')
+
+  -- Output to log file
+  if fp then
+    for i = 1, length do
+      fp:write(e[i])
+      e[i] = nil
     end
 
+    fp:close()
+  else
+    for i = 1, length do
+      e[i] = nil
+    end
   end
 end
 
